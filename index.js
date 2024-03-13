@@ -48,6 +48,47 @@ app.get('/users', async (req, res) => {
     }
 })
 
+app.get('/users/:id', async (req, res) => {
+  const id =  req.params.id
+    try {
+      const users =  await User.findById(id)
+      if(!users){
+       return  res.status(400).json({Message : 'User not found'})
+      }
+      res.send(users)
+    } catch (error) {
+      res.status(500).json({message : error.message})
+    }
+})
+
+
+app.put('/users/:id', async (req, res) => {
+  const id =  req.params.id
+    try {
+      const users =  await User.findByIdAndUpdate(id, req.body)
+      if(!users){
+       return  res.status(400).json({Message : 'User not found'})
+      }
+      res.send(users)
+    } catch (error) {
+      res.status(500).json({message : error.message})
+    }
+})
+
+
+app.delete('/users/:id', async (req, res) => {
+  const id =  req.params.id
+    try {
+      const users =  await User.findOneAndDelete(id)
+      if(!users){
+       return  res.status(400).json({Message : 'User not found'})
+      }
+      res.json({ message: 'User deleted successfully' });
+    } catch (error) {
+      res.status(500).json({message : error.message})
+    }
+})
+
 
 app.post('/users', async (req, res) => {
   console.log(req);
